@@ -1,5 +1,6 @@
-import helper.Helper;
+import helper.Filter;
 import jsonPlaceholder.PostResource;
+import jsonPlaceholder.UserResource;
 import objectModels.Comment;
 import objectModels.Post;
 import objectModels.User;
@@ -21,7 +22,10 @@ public class GetPostsPublishedByUserTest {
     @Test
     public void allExistingUserPostsCouldBeFoundByUserId() {
         PostResource postResource = new PostResource();
-        User testUser = Helper.getUserByUsername("Delphine");
+        UserResource userResource = new UserResource();
+        Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("username", "Delphine");
+        User testUser = userResource.getUsers(queryParameters)[0];
         Post[] allUserPosts = postResource.getUserPosts(testUser.getId());
         Assert.assertTrue("Expected User posts does not return by User id as expected", allUserPosts.length > 0);
     }
@@ -29,11 +33,14 @@ public class GetPostsPublishedByUserTest {
     @Test
     public void allExistingUserPostsCouldBeQueriedByUserId() {
         PostResource postResource = new PostResource();
-        User testUser = Helper.getUserByUsername("Delphine");
+        UserResource userResource = new UserResource();
         Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("username", "Delphine");
+        User testUser = userResource.getUsers(queryParameters)[0];
         queryParameters.put("userId", testUser.getId());
         Post[] actualPosts = postResource.getAllPosts(queryParameters);
-        Post[] expectedPosts = Helper.getAllPostsUserHas(String.valueOf(testUser.getUsername()));
+        Post[] expectedPosts = userResource
+                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId());
 
         Assert.assertTrue("All existing posts are not filtered by a username parameter",
                 actualPosts.length == expectedPosts.length);
@@ -42,17 +49,19 @@ public class GetPostsPublishedByUserTest {
     @Test
     public void postEndpointReturnsRequiredPostDetailsByItsId() {
         PostResource postResource = new PostResource();
-        User testUser = Helper.getUserByUsername("Delphine");
-        Post[] userPosts = Helper.getAllPostsUserHas(testUser.getUsername());
+        UserResource userResource = new UserResource();
+        Post[] userPosts = userResource
+                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId());
         Post userPost = postResource.getPostById(userPosts[0].getId());
         Assert.assertNotNull(userPost);
     }
 
     @Test
     public void postsEndpointCouldReturnCommentsUnderAParticularPost(){
-        //to be fulfilled with create data
         PostResource postResource = new PostResource();
-        Post post = Helper.getAllPostsUserHas("Delphine")[0];
+        UserResource userResource = new UserResource();
+        Post post = userResource
+                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId())[0];
         Comment[] comments = postResource.getPostComments(post.getId());
         Assert.assertTrue(String.format("Comments posted under postId: [%d]", post.getId()),
                 comments.length > 0);
@@ -61,8 +70,12 @@ public class GetPostsPublishedByUserTest {
     @Test
     public void validateUserPostsHasCommentsUnderItsPosts(){
         PostResource postResource = new PostResource();
-        User testUser = Helper.getUserByUsername("Delphine");
-        Post[] allPostsUserHas = Helper.getAllPostsUserHas(testUser.getUsername());
+        UserResource userResource = new UserResource();
+        Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("username", "Delphine");
+        User testUser = userResource.getUsers(queryParameters)[0];
+        Post[] allPostsUserHas = userResource
+                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId());
         List<Comment> commentUnderUserPosts = new ArrayList<>();
         for (Post post : allPostsUserHas) {
             commentUnderUserPosts.addAll(Arrays.asList(postResource.getPostComments(post.getId())));
