@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class GetUserByNameTest {
 
@@ -25,9 +26,9 @@ public class GetUserByNameTest {
     @Test
     public void searchForAreUserByUsernameQuery() {
         UserResource userResource = new UserResource();
-        HashMap<String, String> queryParameters = new HashMap<>();
+        Map<String, Object> queryParameters = new HashMap<>();
         queryParameters.put("username", "Delphine");
-        User[] actualUsers = userResource.getUsers();
+        User[] actualUsers = userResource.getUsers(queryParameters);
         boolean userFound = false;
         for (User user : actualUsers) {
             if (user.getUsername().equals("Delphine")) {
