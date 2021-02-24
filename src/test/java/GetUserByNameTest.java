@@ -1,3 +1,4 @@
+import helper.Filter;
 import jsonPlaceholder.UserResource;
 import objectModels.Post;
 import objectModels.User;
@@ -13,13 +14,7 @@ public class GetUserByNameTest {
     public void validateUserWithExpectedNameExists() {
         UserResource userResource = new UserResource();
         User[] allExistingUsers = userResource.getUsers();
-        boolean userExists = false;
-        for (User user : allExistingUsers) {
-            if (user.getUsername().equals("Delphine")) {
-                userExists = true;
-                break;
-            }
-        }
+        boolean userExists = Filter.doesTheUserExist(allExistingUsers, "Delphine");
         Assert.assertTrue(String.format("User with name [%s] exists in users", "Delphine"), userExists);
     }
 
@@ -29,27 +24,15 @@ public class GetUserByNameTest {
         Map<String, Object> queryParameters = new HashMap<>();
         queryParameters.put("username", "Delphine");
         User[] actualUsers = userResource.getUsers(queryParameters);
-        boolean userFound = false;
-        for (User user : actualUsers) {
-            if (user.getUsername().equals("Delphine")) {
-                userFound = true;
-                break;
-            }
-        }
+        boolean userFound = Filter.doesTheUserExist(actualUsers,"Delphine");
         Assert.assertTrue(String.format("User with name [%s] exists in users", "Delphine"), userFound);
     }
 
     @Test
     public void userEndpointReturnsRequiredUserByItsId() {
         UserResource userResource = new UserResource();
-        User expectedUser = new User();
         User[] allExistingUsers = userResource.getUsers();
-        for (User user : allExistingUsers) {
-            if (user.getUsername().equals("Delphine")) {
-                expectedUser = user;
-                break;
-            }
-        }
+        User expectedUser = Filter.filterUsersByName(allExistingUsers,"Delphine");
         User actualUser = userResource.getUserById(expectedUser.getId());
         Assert.assertTrue(expectedUser.equals(actualUser));
     }
@@ -57,22 +40,10 @@ public class GetUserByNameTest {
     @Test
     public void userEndpointReturnsPostsPublishedForRequiredUser() {
         UserResource userResource = new UserResource();
-        User expectedUser = new User();
         User[] allExistingUsers = userResource.getUsers();
-        for (User user : allExistingUsers) {
-            if (user.getUsername().equals("Delphine")) {
-                expectedUser = user;
-                break;
-            }
-        }
+        User expectedUser = Filter.filterUsersByName(allExistingUsers,"Delphine");
         Post[] posts = userResource.getUserPosts(expectedUser.getId());
-        boolean postsAreFiltered = true;
-        for (Post filteredPost : posts) {
-            if (!filteredPost.getUserId().equals(expectedUser.getId())) {
-                postsAreFiltered = false;
-            }
-        }
         Assert.assertTrue(String.format("All posts returned by users endpoint are filtered for requested user: [%s]", expectedUser.getUsername()),
-                postsAreFiltered);
+                Filter.doPostsFilteredByUserId(posts, expectedUser.getId()));
     }
 }

@@ -1,6 +1,7 @@
-import helper.Helper;
+import helper.Filter;
 import jsonPlaceholder.CommentResource;
 import jsonPlaceholder.PostResource;
+import jsonPlaceholder.UserResource;
 import objectModels.Comment;
 import objectModels.Post;
 import org.junit.Assert;
@@ -34,28 +35,27 @@ public class GetPostCommentsTest {
     public void commentEndpointCouldBeQueriedToGetCommentFromAnEmail() {
         CommentResource commentResource = new CommentResource();
         PostResource postResource = new PostResource();
-        Post postWrittenByTestUser = Helper.getAllPostsUserHas("Delphine")[0];
+        UserResource userResource = new UserResource();
+
+        Post postWrittenByTestUser = userResource
+                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId())[0];
         Comment commentFromAPost = postResource.getPostComments(postWrittenByTestUser.getId())[0];
         Map<String, Object> queryParameters = new HashMap<>();
         queryParameters.put("email", commentFromAPost.getEmail());
-
         Comment[] allComments = commentResource.getComments();
-        int commentFromExpectedEmail = 0;
-        for (Comment comment : allComments) {
-            if (comment.getEmail().equals(commentFromAPost.getEmail())) {
-                commentFromExpectedEmail++;
-            }
-        }
         Comment[] actualComments = commentResource.getComments(queryParameters);
         Assert.assertTrue("Comment filter query is not returning all comments with a particular email",
-                actualComments.length == commentFromExpectedEmail);
+                actualComments.length == Filter.filterCommentsByEmail(allComments, commentFromAPost.getEmail()).size());
     }
 
     @Test
     public void commentEndpointCouldReturnACommentByItsId(){
         CommentResource commentResource = new CommentResource();
         PostResource postResource = new PostResource();
-        Post postWrittenByTestUser = Helper.getAllPostsUserHas("Delphine")[0];
+        UserResource userResource = new UserResource();
+
+        Post postWrittenByTestUser = userResource
+                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId())[0];;
         Comment commentFromAPost = postResource.getPostComments(postWrittenByTestUser.getId())[0];
 
         Comment actualComment = commentResource.getCommentById(commentFromAPost.getId());
