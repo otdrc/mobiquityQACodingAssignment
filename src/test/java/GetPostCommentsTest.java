@@ -28,7 +28,7 @@ public class GetPostCommentsTest {
             Matcher matcher = validEmailAddressRegex.matcher(comment.getEmail());
             flag = matcher.find();
         }
-        Assert.assertTrue("Not all Comments existing have valid email addresses ", flag);
+        Assert.assertTrue("Not all comments have valid email addresses ", flag);
     }
 
     @Test

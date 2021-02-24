@@ -27,7 +27,7 @@ public class GetPostsPublishedByUserTest {
         queryParameters.put("username", "Delphine");
         User testUser = userResource.getUsers(queryParameters)[0];
         Post[] allUserPosts = postResource.getUserPosts(testUser.getId());
-        Assert.assertTrue("Expected User posts does not return by User id as expected", allUserPosts.length > 0);
+        Assert.assertTrue("Expected User posts are not returned by User id as expected", allUserPosts.length > 0);
     }
 
     @Test

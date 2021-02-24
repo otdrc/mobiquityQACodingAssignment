@@ -43,7 +43,7 @@ public class GetUserByNameTest {
         User[] allExistingUsers = userResource.getUsers();
         User expectedUser = Filter.filterUsersByName(allExistingUsers,"Delphine");
         Post[] posts = userResource.getUserPosts(expectedUser.getId());
-        Assert.assertTrue(String.format("All posts returned by users endpoint are filtered for requested user: [%s]", expectedUser.getUsername()),
-                Filter.doPostsFilteredByUserId(posts, expectedUser.getId()));
+        Assert.assertTrue(String.format("All posts returned by users endpoint are filtered by user: [%s]", expectedUser.getUsername()),
+                Filter.arePostsFilteredByUserId(posts, expectedUser.getId()));
     }
 }

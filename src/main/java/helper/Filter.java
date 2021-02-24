@@ -31,7 +31,7 @@ public class Filter {
         return found;
     }
 
-    public static boolean doPostsFilteredByUserId(Post[] posts,int userId) {
+    public static boolean arePostsFilteredByUserId(Post[] posts, int userId) {
         boolean postsAreFiltered = true;
         for (Post filteredPost : posts) {
             if (!filteredPost.getUserId().equals(userId)) {
