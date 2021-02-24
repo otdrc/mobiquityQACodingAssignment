@@ -1,5 +1,5 @@
-import jsonPlaceholder.JsonPlaceholderClientActions;
-import objectModels.UserResource;
+import jsonPlaceholder.UserResource;
+import objectModels.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,8 +7,8 @@ public class GetUserByNameTest {
 
     @Test
     public void validateUserWithExpectedNameExists(){
-        JsonPlaceholderClientActions action = new JsonPlaceholderClientActions();
-        UserResource expectedUser = action.getUserByName("Delphine");
+        UserResource userResource = new UserResource();
+        User expectedUser = userResource.getUserByName("Delphine");
         Assert.assertEquals(expectedUser.getUsername(), "Delphine");
     }
 }

@@ -1,6 +1,6 @@
 package objectModels;
 
-public class UserResource {
+public class User {
     private Integer id;
     private String name;
     private String username;
