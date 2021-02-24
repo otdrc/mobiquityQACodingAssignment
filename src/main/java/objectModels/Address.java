@@ -1,5 +1,7 @@
 package objectModels;
 
+import java.util.Objects;
+
 public class Address {
     private String street;
     private String suite;
@@ -45,5 +47,22 @@ public class Address {
 
     public void setGeo(Geo geo) {
         this.geo = geo;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(street, suite, city, zipcode, geo);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Address)) return false;
+        Address address = (Address) o;
+        return street.equals(address.street) &&
+                suite.equals(address.suite) &&
+                city.equals(address.city) &&
+                zipcode.equals(address.zipcode) &&
+                geo.equals(address.geo);
     }
 }

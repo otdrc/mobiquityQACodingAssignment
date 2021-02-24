@@ -6,13 +6,10 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import parser.ConfigParser;
 
-public abstract class JsonPlaceholder {
+public class JsonPlaceholder {
     protected static final String BASEURL = ConfigParser.getValue("BaseUrl");
     protected RequestSpecification requestSpecification;
 
-    public RequestSpecification getRequestSpecification() {
-        return requestSpecification;
-    }
     public JsonPlaceholder() {
         this.requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(BASEURL)

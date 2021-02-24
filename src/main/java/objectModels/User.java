@@ -1,5 +1,7 @@
 package objectModels;
 
+import java.util.Objects;
+
 public class User {
     private Integer id;
     private String name;
@@ -72,5 +74,25 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, username, email, address, phone, website, company);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return id.equals(user.id) &&
+                name.equals(user.name) &&
+                username.equals(user.username) &&
+                email.equals(user.email) &&
+                address.equals(user.address) &&
+                phone.equals(user.phone) &&
+                website.equals(user.website) &&
+                company.equals(user.company);
     }
 }
