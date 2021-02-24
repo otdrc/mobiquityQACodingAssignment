@@ -8,13 +8,13 @@ import org.junit.Test;
 
 import java.util.*;
 
-public class GetPostsPublishedByUser {
+public class GetPostsPublishedByUserTest {
 
     @Test
     public void validatePostsSourceAlreadyHasPublishedData() {
         PostResource postResource = new PostResource();
         Post[] posts = postResource.getAllPosts();
-        Assert.assertTrue(String.format("Validate posts endpoint return the following number of posts = [%d]", posts.length),
+        Assert.assertTrue(String.format("Posts endpoint does not return the expected number of posts = [%d]", posts.length),
                 posts.length > 0);
     }
 
@@ -23,7 +23,7 @@ public class GetPostsPublishedByUser {
         PostResource postResource = new PostResource();
         User testUser = Helper.getUserByUsername("Delphine");
         Post[] allUserPosts = postResource.getUserPosts(testUser.getId());
-        Assert.assertTrue("Expected User already has a few posts published", allUserPosts.length > 0);
+        Assert.assertTrue("Expected User posts does not return by User id as expected", allUserPosts.length > 0);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class GetPostsPublishedByUser {
         Post[] actualPosts = postResource.getAllPosts(queryParameters);
         Post[] expectedPosts = Helper.getAllPostsUserHas(String.valueOf(testUser.getUsername()));
 
-        Assert.assertTrue("All existing posts could be filtered by a username parameter",
+        Assert.assertTrue("All existing posts are not filtered by a username parameter",
                 actualPosts.length == expectedPosts.length);
     }
 
@@ -53,7 +53,7 @@ public class GetPostsPublishedByUser {
         //to be fulfilled with create data
         PostResource postResource = new PostResource();
         Post post = Helper.getAllPostsUserHas("Delphine")[0];
-        Comment[] comments = postResource.getPostCommets(post.getId());
+        Comment[] comments = postResource.getPostComments(post.getId());
         Assert.assertTrue(String.format("Comments posted under postId: [%d]", post.getId()),
                 comments.length > 0);
     }
@@ -65,7 +65,7 @@ public class GetPostsPublishedByUser {
         Post[] allPostsUserHas = Helper.getAllPostsUserHas(testUser.getUsername());
         List<Comment> commentUnderUserPosts = new ArrayList<>();
         for (Post post : allPostsUserHas) {
-            commentUnderUserPosts.addAll(Arrays.asList(postResource.getPostCommets(post.getId())));
+            commentUnderUserPosts.addAll(Arrays.asList(postResource.getPostComments(post.getId())));
         }
         Assert.assertTrue(String.format("User: [%s] has commented posts", testUser.getUsername()),
                 commentUnderUserPosts.size() > 0);

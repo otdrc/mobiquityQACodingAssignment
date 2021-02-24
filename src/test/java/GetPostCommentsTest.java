@@ -35,7 +35,7 @@ public class GetPostCommentsTest {
         CommentResource commentResource = new CommentResource();
         PostResource postResource = new PostResource();
         Post postWrittenByTestUser = Helper.getAllPostsUserHas("Delphine")[0];
-        Comment commentFromAPost = postResource.getPostCommets(postWrittenByTestUser.getId())[0];
+        Comment commentFromAPost = postResource.getPostComments(postWrittenByTestUser.getId())[0];
         Map<String, Object> queryParameters = new HashMap<>();
         queryParameters.put("email", commentFromAPost.getEmail());
 
@@ -47,7 +47,7 @@ public class GetPostCommentsTest {
             }
         }
         Comment[] actualComments = commentResource.getComments(queryParameters);
-        Assert.assertTrue("Comment filter query is returning all comments with a particular email",
+        Assert.assertTrue("Comment filter query is not returning all comments with a particular email",
                 actualComments.length == commentFromExpectedEmail);
     }
 
@@ -56,10 +56,10 @@ public class GetPostCommentsTest {
         CommentResource commentResource = new CommentResource();
         PostResource postResource = new PostResource();
         Post postWrittenByTestUser = Helper.getAllPostsUserHas("Delphine")[0];
-        Comment commentFromAPost = postResource.getPostCommets(postWrittenByTestUser.getId())[0];
+        Comment commentFromAPost = postResource.getPostComments(postWrittenByTestUser.getId())[0];
 
         Comment actualComment = commentResource.getCommentById(commentFromAPost.getId());
-        Assert.assertTrue("Actual comment is returned by comment from a post as expected",
+        Assert.assertTrue("Actual comment does not correspond to a comment from a post as expected",
                 actualComment.getPostId().equals(postWrittenByTestUser.getId()));
     }
 }

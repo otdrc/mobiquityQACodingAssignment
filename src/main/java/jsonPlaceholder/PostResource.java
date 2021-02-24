@@ -50,7 +50,7 @@ public class PostResource extends JsonPlaceholder {
         return posts;
     }
 
-    public Comment[] getPostCommets(int postId) {
+    public Comment[] getPostComments(int postId) {
         Comment[] comments = given()
                 .spec(requestSpecification)
                 .get(Endpoint.COMMENTS_FROM_POST, postId)
