@@ -76,4 +76,13 @@ public class GetPostsPublishedByUserTest {
                 .as("User: [%s] has commented posts", testUser.getUsername())
                 .hasSizeGreaterThan(0);
     }
+
+    @Test
+    public void postCommentCouldNotBeReturnedIfPostDoesNotExist() {
+        List<Comment> commentsFound = PostResource.getPostComments(0);
+        Assertions
+                .assertThat(commentsFound)
+                .as("Non existing post with id [%f] could not have any comments", 0)
+                .isEmpty();
+    }
 }

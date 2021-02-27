@@ -53,4 +53,24 @@ public class GetUserByNameTest {
                 .as("All posts returned by users endpoint are filtered by username: [%s]", expectedUser.getUsername())
                 .isTrue();
     }
+
+    @Test
+    public void userEndpointShouldNotReturnAUserIfItDoesNotExist() {
+        Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("username", "Delphne");
+        List<User> usersFound = UserResource.getUsers(queryParameters);
+        Assertions
+                .assertThat(usersFound)
+                .as("User with name [%s] could not be found in users", "Delphine", usersFound)
+                .isEmpty();
+    }
+
+    @Test
+    public void userEndpointShouldReturnPostsIfUserIdDoesNotExist() {
+        List<Post> postsFound = UserResource.getUserPosts(0);
+        Assertions
+                .assertThat(postsFound)
+                .as("Non existing user with id [%f] could not have any posts", 0)
+                .isEmpty();
+    }
 }

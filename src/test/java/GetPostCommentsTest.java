@@ -34,7 +34,7 @@ public class GetPostCommentsTest {
     }
 
     @Test
-    public void commentEndpointCouldReturnACommentByItsId(){
+    public void commentEndpointCouldReturnACommentByItsId() {
         Post postWrittenByTestUser = UserResource
                 .getUserPosts(Filter.filterUsersByName(UserResource.getUsers(), "Delphine").getId()).get(0);
         Comment commentFromAPost = PostResource.getPostComments(postWrittenByTestUser.getId()).get(0);
@@ -59,5 +59,17 @@ public class GetPostCommentsTest {
                 .assertThat(Filter.areCommmentBodiesEmpty(CommentResource.getComments()))
                 .as("Comment body could not be empty")
                 .isFalse();
+    }
+
+    @Test
+    public void commentsEndpointCouldNotReturnAnyDataForInvalidQueryParameter() {
+        Integer postIdOutOfBound = PostResource.getAllPosts().size() + 1;
+        Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("postId", postIdOutOfBound);
+        List<Comment> commentsFound = CommentResource.getComments(queryParameters);
+        Assertions
+                .assertThat(commentsFound)
+                .as("Non existing post with id [%d] could not have any comments", postIdOutOfBound)
+                .isEmpty();
     }
 }
