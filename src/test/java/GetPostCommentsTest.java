@@ -7,10 +7,7 @@ import objectModels.Post;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,8 +18,7 @@ public class GetPostCommentsTest {
         Pattern validEmailAddressRegex =
                 Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         boolean flag = true;
-        CommentResource commentResource = new CommentResource();
-        Comment[] comments = commentResource.getComments();
+        Comment[] comments = CommentResource.getComments();
         List<Comment> allCommentsPublished = Arrays.asList(comments);
         for (Comment comment : allCommentsPublished) {
             Matcher matcher = validEmailAddressRegex.matcher(comment.getEmail());
@@ -33,33 +29,45 @@ public class GetPostCommentsTest {
 
     @Test
     public void commentEndpointCouldBeQueriedToGetCommentFromAnEmail() {
-        CommentResource commentResource = new CommentResource();
-        PostResource postResource = new PostResource();
-        UserResource userResource = new UserResource();
-
-        Post postWrittenByTestUser = userResource
-                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId())[0];
-        Comment commentFromAPost = postResource.getPostComments(postWrittenByTestUser.getId())[0];
+        Post postWrittenByTestUser = UserResource
+                .getUserPosts(Filter.filterUsersByName(UserResource.getUsers(), "Delphine").getId())[0];
+        Comment commentFromAPost = PostResource.getPostComments(postWrittenByTestUser.getId())[0];
         Map<String, Object> queryParameters = new HashMap<>();
         queryParameters.put("email", commentFromAPost.getEmail());
-        Comment[] allComments = commentResource.getComments();
-        Comment[] actualComments = commentResource.getComments(queryParameters);
-        Assert.assertTrue("Comment filter query is not returning all comments with a particular email",
-                actualComments.length == Filter.filterCommentsByEmail(allComments, commentFromAPost.getEmail()).size());
+        Comment[] allComments = CommentResource.getComments();
+        Comment[] actualComments = CommentResource.getComments(queryParameters);
+        Assert.assertEquals(actualComments.length,Filter.filterCommentsByEmail(allComments, commentFromAPost.getEmail()).size());
     }
 
     @Test
     public void commentEndpointCouldReturnACommentByItsId(){
-        CommentResource commentResource = new CommentResource();
-        PostResource postResource = new PostResource();
-        UserResource userResource = new UserResource();
+        Post postWrittenByTestUser = UserResource
+                .getUserPosts(Filter.filterUsersByName(UserResource.getUsers(), "Delphine").getId())[0];;
+        Comment commentFromAPost = PostResource.getPostComments(postWrittenByTestUser.getId())[0];
 
-        Post postWrittenByTestUser = userResource
-                .getUserPosts(Filter.filterUsersByName(userResource.getUsers(), "Delphine").getId())[0];;
-        Comment commentFromAPost = postResource.getPostComments(postWrittenByTestUser.getId())[0];
+        Comment actualComment = CommentResource.getCommentById(commentFromAPost.getId());
+        Assert.assertEquals(
+                actualComment.getPostId(), postWrittenByTestUser.getId());
+    }
 
-        Comment actualComment = commentResource.getCommentById(commentFromAPost.getId());
-        Assert.assertTrue("Actual comment does not correspond to a comment from a post as expected",
-                actualComment.getPostId().equals(postWrittenByTestUser.getId()));
+    @Test
+    public void validateCommentIdCouldNotBeDuplicated() {
+        Comment[] allComments = CommentResource.getComments();
+        Set<Integer> idsWithoutDuplicates = new HashSet<>(Filter.filterCommentIds(allComments));
+        Assert.assertEquals(idsWithoutDuplicates.size(), allComments.length);
+    }
+
+    @Test
+    public void validateCommentBodiesCouldNotBeEmpty() {
+        Comment[] allComments = CommentResource.getComments();
+        Assert.assertFalse("Comment body could be empty",
+                Filter.areCommmentBodiesEmpty(allComments));
+    }
+
+    @Test
+    public void validateCommentNamesCouldNotBeEmpty() {
+        Comment[] allComments = CommentResource.getComments();
+        Assert.assertFalse("Comment name could be empty",
+                Filter.areCommentNamesEmpty(allComments));
     }
 }

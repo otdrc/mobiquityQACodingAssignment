@@ -8,11 +8,8 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class UserResource extends JsonPlaceholder {
-    public UserResource() {
-        super();
-    }
 
-    public User[] getUsers() {
+    public static User[] getUsers() {
         User[] allUsers = given()
                 .spec(requestSpecification)
                 .get(Endpoint.USERS)
@@ -21,7 +18,7 @@ public class UserResource extends JsonPlaceholder {
         return allUsers;
     }
 
-    public User[] getUsers(Map<String, Object> queryParameters) {
+    public static User[] getUsers(Map<String, Object> queryParameters) {
         User [] users = given()
                 .spec(requestSpecification)
                 .queryParams(queryParameters)
@@ -31,7 +28,7 @@ public class UserResource extends JsonPlaceholder {
         return users;
     }
 
-    public User getUserById(int userId) {
+    public static User getUserById(int userId) {
         User user = given()
                 .spec(requestSpecification)
                 .get(Endpoint.USER_BY_ID, userId)
@@ -40,7 +37,7 @@ public class UserResource extends JsonPlaceholder {
         return user;
     }
 
-    public Post[] getUserPosts(int userId) {
+    public static Post[] getUserPosts(int userId) {
         Post[] posts = given()
                 .spec(requestSpecification)
                 .get(Endpoint.POSTS_BY_USER_ID, userId)

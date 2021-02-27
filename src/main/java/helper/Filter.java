@@ -17,7 +17,7 @@ public class Filter {
                 break;
             }
         }
-      return userFound;
+        return userFound;
     }
 
     public static boolean doesTheUserExist(User[] users, String name) {
@@ -41,7 +41,7 @@ public class Filter {
         return postsAreFiltered;
     }
 
-    public static List<Comment> filterCommentsByEmail(Comment[] comments, String email){
+    public static List<Comment> filterCommentsByEmail(Comment[] comments, String email) {
         List<Comment> filteredComments = new ArrayList<>();
         for (Comment comment : comments) {
             if (comment.getEmail().equals(email)) {
@@ -49,5 +49,37 @@ public class Filter {
             }
         }
         return filteredComments;
+    }
+
+    public static List<Integer> filterCommentIds(Comment[] comments) {
+        List<Integer> filteredIds = new ArrayList<>();
+        for (Comment comment : comments) {
+            filteredIds.add(comment.getId());
+        }
+        return filteredIds;
+    }
+
+    public static List<Integer> filterCommentPostIds(Comment[] comments) {
+        List<Integer> filteredPostIds = new ArrayList<>();
+        for (Comment comment : comments) {
+            filteredPostIds.add(comment.getPostId());
+        }
+        return filteredPostIds;
+    }
+
+    public static boolean areCommmentBodiesEmpty(Comment[] comments) {
+        boolean isEmpty = false;
+        for (Comment comment : comments) {
+                isEmpty = comment.getBody().isEmpty();
+        }
+        return isEmpty;
+    }
+
+    public static boolean areCommentNamesEmpty(Comment[] comments) {
+        boolean isEmpty = false;
+        for (Comment comment : comments) {
+            isEmpty = comment.getName().isEmpty();
+        }
+        return isEmpty;
     }
 }

@@ -7,11 +7,8 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class CommentResource extends JsonPlaceholder {
-    public CommentResource() {
-        super();
-    }
 
-    public Comment[] getComments() {
+    public static Comment[] getComments() {
         Comment[] allComments = given()
                 .spec(requestSpecification)
                 .get(Endpoint.COMMENTS)
@@ -20,7 +17,7 @@ public class CommentResource extends JsonPlaceholder {
         return allComments;
     }
 
-    public Comment[] getComments(Map<String, Object> queryParameters) {
+    public static Comment[] getComments(Map<String, Object> queryParameters) {
         Comment[] comments = given()
                 .spec(requestSpecification)
                 .queryParams(queryParameters)
@@ -30,7 +27,7 @@ public class CommentResource extends JsonPlaceholder {
         return comments;
     }
 
-    public Comment getCommentById(int commentId) {
+    public static Comment getCommentById(int commentId) {
         Comment comment = given()
                 .spec(requestSpecification)
                 .get(Endpoint.COMMENT_BY_ID, commentId)

@@ -8,14 +8,11 @@ import parser.ConfigParser;
 
 public class JsonPlaceholder {
     protected static final String BASEURL = ConfigParser.getValue("BaseUrl");
-    protected RequestSpecification requestSpecification;
 
-    public JsonPlaceholder() {
-        this.requestSpecification = new RequestSpecBuilder()
+    protected static RequestSpecification requestSpecification = new RequestSpecBuilder()
                 .setBaseUri(BASEURL)
                 .setAccept(ContentType.JSON)
                 .setContentType(ContentType.JSON)
                 .log(LogDetail.ALL)
                 .build();
-    }
 }
