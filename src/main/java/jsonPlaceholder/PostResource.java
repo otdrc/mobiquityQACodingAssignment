@@ -3,57 +3,60 @@ package jsonPlaceholder;
 import objectModels.Comment;
 import objectModels.Post;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
 public class PostResource extends JsonPlaceholder {
 
-    public static Post[] getAllPosts() {
-        Post[] posts = given().
-                spec(requestSpecification)
-                .get(Endpoint.POSTS)
-                .body()
-                .as(Post[].class);
-        return posts;
+    public static List<Post> getAllPosts() {
+        return Arrays.asList(
+                given().
+                        spec(requestSpecification)
+                        .get(Endpoint.POSTS)
+                        .body()
+                        .as(Post[].class)
+        );
     }
 
-    public static Post[] getAllPosts(Map<String, Object> queryParameters) {
-        Post [] posts = given()
-                .spec(requestSpecification)
-                .queryParams(queryParameters)
-                .get(Endpoint.POSTS)
-                .body()
-                .as(Post[].class);
-        return posts;
+    public static List<Post> getAllPosts(Map<String, Object> queryParameters) {
+        return Arrays.asList(
+                given()
+                        .spec(requestSpecification)
+                        .queryParams(queryParameters)
+                        .get(Endpoint.POSTS)
+                        .body()
+                        .as(Post[].class)
+        );
     }
 
     public static Post getPostById(int postId) {
-        Post post = given()
+        return given()
                 .spec(requestSpecification)
                 .get(Endpoint.POST_BY_ID, postId)
                 .body()
                 .as(Post.class);
-        return post;
     }
 
-    public static Post[] getUserPosts(int userId) {
-        Post[] posts = given()
-                .spec(requestSpecification)
-                .get(Endpoint.POSTS_BY_USER_ID, userId)
-                .body()
-                .as(Post[].class);
-
-        return posts;
+    public static List<Post> getUserPosts(int userId) {
+        return Arrays.asList(
+                given()
+                        .spec(requestSpecification)
+                        .get(Endpoint.POSTS_BY_USER_ID, userId)
+                        .body()
+                        .as(Post[].class)
+        );
     }
 
-    public static Comment[] getPostComments(int postId) {
-        Comment[] comments = given()
-                .spec(requestSpecification)
-                .get(Endpoint.COMMENTS_FROM_POST, postId)
-                .body()
-                .as(Comment[].class);
-
-        return comments;
+    public static List<Comment> getPostComments(int postId) {
+        return Arrays.asList(
+                given()
+                        .spec(requestSpecification)
+                        .get(Endpoint.COMMENTS_FROM_POST, postId)
+                        .body()
+                        .as(Comment[].class)
+        );
     }
 }

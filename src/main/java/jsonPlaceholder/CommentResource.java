@@ -2,37 +2,40 @@ package jsonPlaceholder;
 
 import objectModels.Comment;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
 public class CommentResource extends JsonPlaceholder {
 
-    public static Comment[] getComments() {
-        Comment[] allComments = given()
-                .spec(requestSpecification)
-                .get(Endpoint.COMMENTS)
-                .body()
-                .as(Comment[].class);
-        return allComments;
+    public static List<Comment> getComments() {
+        return Arrays.asList(
+                given()
+                        .spec(requestSpecification)
+                        .get(Endpoint.COMMENTS)
+                        .body()
+                        .as(Comment[].class)
+        );
     }
 
-    public static Comment[] getComments(Map<String, Object> queryParameters) {
-        Comment[] comments = given()
-                .spec(requestSpecification)
-                .queryParams(queryParameters)
-                .get(Endpoint.COMMENTS)
-                .body()
-                .as(Comment[].class);
-        return comments;
+    public static List<Comment> getComments(Map<String, Object> queryParameters) {
+        return Arrays.asList(
+                given()
+                        .spec(requestSpecification)
+                        .queryParams(queryParameters)
+                        .get(Endpoint.COMMENTS)
+                        .body()
+                        .as(Comment[].class)
+        );
     }
 
     public static Comment getCommentById(int commentId) {
-        Comment comment = given()
+        return given()
                 .spec(requestSpecification)
                 .get(Endpoint.COMMENT_BY_ID, commentId)
                 .body()
                 .as(Comment.class);
-        return comment;
     }
 }
