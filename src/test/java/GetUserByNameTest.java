@@ -1,7 +1,7 @@
 import helper.Filter;
-import jsonPlaceholder.UserResource;
-import objectModels.Post;
-import objectModels.User;
+import jsonplaceholder.UserResource;
+import objectmodels.Post;
+import objectmodels.User;
 import org.junit.Assert;
 import org.junit.Test;
 

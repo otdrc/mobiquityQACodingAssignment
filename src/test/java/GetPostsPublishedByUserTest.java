@@ -1,9 +1,9 @@
 import helper.Filter;
-import jsonPlaceholder.PostResource;
-import jsonPlaceholder.UserResource;
-import objectModels.Comment;
-import objectModels.Post;
-import objectModels.User;
+import jsonplaceholder.PostResource;
+import jsonplaceholder.UserResource;
+import objectmodels.Comment;
+import objectmodels.Post;
+import objectmodels.User;
 import org.junit.Assert;
 import org.junit.Test;
 

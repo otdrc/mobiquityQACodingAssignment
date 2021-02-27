@@ -1,4 +1,4 @@
-package jsonPlaceholder;
+package jsonplaceholder;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -15,4 +15,5 @@ public class JsonPlaceholder {
                 .setContentType(ContentType.JSON)
                 .log(LogDetail.ALL)
                 .build();
+    protected JsonPlaceholder() {}
 }

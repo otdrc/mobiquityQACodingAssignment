@@ -1,14 +1,15 @@
 package helper;
 
-import objectModels.Comment;
-import objectModels.Post;
-import objectModels.User;
+import objectmodels.Comment;
+import objectmodels.Post;
+import objectmodels.User;
 
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Filter {
+    private Filter() {}
 
     public static User filterUsersByName(List<User> users, String name) {
         return users

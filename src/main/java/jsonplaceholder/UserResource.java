@@ -1,7 +1,7 @@
-package jsonPlaceholder;
+package jsonplaceholder;
 
-import objectModels.Post;
-import objectModels.User;
+import objectmodels.Post;
+import objectmodels.User;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +10,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class UserResource extends JsonPlaceholder {
+    UserResource() {}
 
     public static List<User> getUsers() {
         return Arrays.asList(

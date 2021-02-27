@@ -1,7 +1,7 @@
-package jsonPlaceholder;
+package jsonplaceholder;
 
-import objectModels.Comment;
-import objectModels.Post;
+import objectmodels.Comment;
+import objectmodels.Post;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +10,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class PostResource extends JsonPlaceholder {
+    private PostResource() {}
 
     public static List<Post> getAllPosts() {
         return Arrays.asList(
