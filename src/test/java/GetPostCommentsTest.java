@@ -72,4 +72,30 @@ public class GetPostCommentsTest {
                 .as("Non existing post with id [%d] could not have any comments", postIdOutOfBound)
                 .isEmpty();
     }
+        @Test
+    public void commentWithInvalidEmailCouldNotBeCreated() {
+        Comment comment = new Comment();
+        comment.setName("Comment with invalid email");
+        comment.setBody("Some body here");
+        comment.setPostId(PostResource.getAllPosts().get(0).getId());
+        comment.setEmail(".invalid@email.com");
+        Assertions
+                .assertThat(CommentResource.postComment(comment))
+                .as("Comment with email [%s] could not be created", comment.getEmail())
+                .isBetween(400, 499);
+    }
+
+    @Test
+    public void commentWithInvalidPostIdCouldNotBeCreated() {
+        Integer postIdOutOfBound = PostResource.getAllPosts().size() + 1;
+        Comment comment = new Comment();
+        comment.setPostId(postIdOutOfBound);
+        comment.setBody("Some body here");
+        comment.setEmail("some@mail.com");
+        comment.setName("Some name here");
+        Assertions
+                .assertThat(CommentResource.postComment(comment))
+                .as("Comment with non existing PostId [%d] could not be created", postIdOutOfBound)
+                .isBetween(400, 499);
+    }
 }

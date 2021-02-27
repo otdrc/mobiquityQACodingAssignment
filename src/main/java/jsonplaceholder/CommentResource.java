@@ -48,4 +48,15 @@ public class CommentResource extends JsonPlaceholder {
                 .body()
                 .as(Comment.class);
     }
+
+    public static Integer postComment(Comment comment) {
+        return given()
+                .spec(requestSpecification)
+                .body(comment)
+                .when()
+                .post(Endpoint.COMMENTS)
+                .then()
+                .extract()
+                .statusCode();
+    }
 }
