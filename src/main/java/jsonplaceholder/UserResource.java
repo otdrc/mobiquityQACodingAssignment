@@ -17,6 +17,9 @@ public class UserResource extends JsonPlaceholder {
                 given()
                         .spec(requestSpecification)
                         .get(Endpoint.USERS)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(User[].class)
         );
@@ -28,6 +31,9 @@ public class UserResource extends JsonPlaceholder {
                         .spec(requestSpecification)
                         .queryParams(queryParameters)
                         .get(Endpoint.USERS)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(User[].class)
         );
@@ -37,6 +43,9 @@ public class UserResource extends JsonPlaceholder {
         return given()
                 .spec(requestSpecification)
                 .get(Endpoint.USER_BY_ID, userId)
+                .then()
+                .statusCode(200)
+                .extract()
                 .body()
                 .as(User.class);
     }
@@ -46,6 +55,9 @@ public class UserResource extends JsonPlaceholder {
                 given()
                         .spec(requestSpecification)
                         .get(Endpoint.POSTS_BY_USER_ID, userId)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(Post[].class)
         );

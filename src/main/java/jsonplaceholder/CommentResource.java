@@ -16,6 +16,9 @@ public class CommentResource extends JsonPlaceholder {
                 given()
                         .spec(requestSpecification)
                         .get(Endpoint.COMMENTS)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(Comment[].class)
         );
@@ -27,6 +30,9 @@ public class CommentResource extends JsonPlaceholder {
                         .spec(requestSpecification)
                         .queryParams(queryParameters)
                         .get(Endpoint.COMMENTS)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(Comment[].class)
         );
@@ -36,6 +42,9 @@ public class CommentResource extends JsonPlaceholder {
         return given()
                 .spec(requestSpecification)
                 .get(Endpoint.COMMENT_BY_ID, commentId)
+                .then()
+                .statusCode(200)
+                .extract()
                 .body()
                 .as(Comment.class);
     }

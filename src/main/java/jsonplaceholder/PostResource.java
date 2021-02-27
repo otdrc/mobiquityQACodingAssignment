@@ -17,6 +17,9 @@ public class PostResource extends JsonPlaceholder {
                 given().
                         spec(requestSpecification)
                         .get(Endpoint.POSTS)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(Post[].class)
         );
@@ -28,6 +31,9 @@ public class PostResource extends JsonPlaceholder {
                         .spec(requestSpecification)
                         .queryParams(queryParameters)
                         .get(Endpoint.POSTS)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(Post[].class)
         );
@@ -37,6 +43,9 @@ public class PostResource extends JsonPlaceholder {
         return given()
                 .spec(requestSpecification)
                 .get(Endpoint.POST_BY_ID, postId)
+                .then()
+                .statusCode(200)
+                .extract()
                 .body()
                 .as(Post.class);
     }
@@ -46,6 +55,9 @@ public class PostResource extends JsonPlaceholder {
                 given()
                         .spec(requestSpecification)
                         .get(Endpoint.POSTS_BY_USER_ID, userId)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(Post[].class)
         );
@@ -56,6 +68,9 @@ public class PostResource extends JsonPlaceholder {
                 given()
                         .spec(requestSpecification)
                         .get(Endpoint.COMMENTS_FROM_POST, postId)
+                        .then()
+                        .statusCode(200)
+                        .extract()
                         .body()
                         .as(Comment[].class)
         );
