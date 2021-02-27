@@ -2,7 +2,7 @@ import helper.Filter;
 import jsonplaceholder.UserResource;
 import objectmodels.Post;
 import objectmodels.User;
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -15,7 +15,10 @@ public class GetUserByNameTest {
     public void validateUserWithExpectedNameExists() {
         List<User> allExistingUsers = UserResource.getUsers();
         boolean userExists = Filter.doesTheUserExist(allExistingUsers, "Delphine");
-        Assert.assertTrue(String.format("User with name [%s] exists in users", "Delphine"), userExists);
+        Assertions
+                .assertThat(userExists)
+                .as("User with name [%s] exists in users", "Delphine", userExists)
+                .isTrue();
     }
 
     @Test
@@ -24,7 +27,10 @@ public class GetUserByNameTest {
         queryParameters.put("username", "Delphine");
         List<User> actualUsers = UserResource.getUsers(queryParameters);
         boolean userFound = Filter.doesTheUserExist(actualUsers,"Delphine");
-        Assert.assertTrue(String.format("User with name [%s] exists in users", "Delphine"), userFound);
+        Assertions
+                .assertThat(userFound)
+                .as("User with name [%s] could be found in users", "Delphine", userFound)
+                .isTrue();
     }
 
     @Test
@@ -32,7 +38,9 @@ public class GetUserByNameTest {
         List<User> allExistingUsers = UserResource.getUsers();
         User expectedUser = Filter.filterUsersByName(allExistingUsers,"Delphine");
         User actualUser = UserResource.getUserById(expectedUser.getId());
-        Assert.assertEquals(expectedUser, actualUser);
+        Assertions
+                .assertThat(actualUser)
+                .isEqualTo(expectedUser);
     }
 
     @Test
@@ -40,7 +48,9 @@ public class GetUserByNameTest {
         List<User> allExistingUsers = UserResource.getUsers();
         User expectedUser = Filter.filterUsersByName(allExistingUsers,"Delphine");
         List<Post> posts = UserResource.getUserPosts(expectedUser.getId());
-        Assert.assertTrue(String.format("All posts returned by users endpoint are filtered by user: [%s]", expectedUser.getUsername()),
-                Filter.arePostsFilteredByUserId(posts, expectedUser.getId()));
+        Assertions
+                .assertThat(Filter.arePostsFilteredByUserId(posts, expectedUser.getId()))
+                .as("All posts returned by users endpoint are filtered by username: [%s]", expectedUser.getUsername())
+                .isTrue();
     }
 }
