@@ -23,6 +23,7 @@
         <assertj.version>3.19.0</assertj.version>
         <cucumber.version>6.10.1</cucumber.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <config.file>./config.yml</config.file>
     </properties>
 
     <build>
@@ -47,6 +48,7 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                         -DBUILD_URL=${project.baseUri}
+                        -DCONFIG=${config.file}
                     </argLine>
                     <properties>
                         <property>

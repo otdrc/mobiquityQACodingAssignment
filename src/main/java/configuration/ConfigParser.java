@@ -1,4 +1,4 @@
-package parser;
+package configuration;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -8,9 +8,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class ConfigParser {
-    private static final String CONFIG_FILE_NAME = "./config.yml";
-
-    private ConfigParser() {}
+    private static final String CONFIG_FILE_NAME = System.getProperty("CONFIG");
 
     public static String getValue(String key) {
         Yaml yaml = new Yaml();
