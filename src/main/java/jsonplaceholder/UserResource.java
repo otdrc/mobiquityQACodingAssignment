@@ -9,13 +9,14 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class UserResource extends JsonPlaceholder {
-    UserResource() {}
+public class UserResource {
+    private UserResource() {
+    }
 
     public static List<User> getUsers() {
         return Arrays.asList(
                 given()
-                        .spec(requestSpecification)
+                        .spec(JsonPlaceholder.requestSpecification)
                         .get(Endpoint.USERS)
                         .then()
                         .statusCode(200)
@@ -28,7 +29,7 @@ public class UserResource extends JsonPlaceholder {
     public static List<User> getUsers(Map<String, Object> queryParameters) {
         return Arrays.asList(
                 given()
-                        .spec(requestSpecification)
+                        .spec(JsonPlaceholder.requestSpecification)
                         .queryParams(queryParameters)
                         .get(Endpoint.USERS)
                         .then()
@@ -41,7 +42,7 @@ public class UserResource extends JsonPlaceholder {
 
     public static User getUserById(int userId) {
         return given()
-                .spec(requestSpecification)
+                .spec(JsonPlaceholder.requestSpecification)
                 .get(Endpoint.USER_BY_ID, userId)
                 .then()
                 .statusCode(200)
@@ -53,7 +54,7 @@ public class UserResource extends JsonPlaceholder {
     public static List<Post> getUserPosts(int userId) {
         return Arrays.asList(
                 given()
-                        .spec(requestSpecification)
+                        .spec(JsonPlaceholder.requestSpecification)
                         .get(Endpoint.POSTS_BY_USER_ID, userId)
                         .then()
                         .statusCode(200)

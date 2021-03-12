@@ -9,13 +9,14 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class PostResource extends JsonPlaceholder {
-    private PostResource() {}
+public class PostResource {
+    private PostResource() {
+    }
 
     public static List<Post> getAllPosts() {
         return Arrays.asList(
                 given().
-                        spec(requestSpecification)
+                        spec(JsonPlaceholder.requestSpecification)
                         .get(Endpoint.POSTS)
                         .then()
                         .statusCode(200)
@@ -28,7 +29,7 @@ public class PostResource extends JsonPlaceholder {
     public static List<Post> getAllPosts(Map<String, Object> queryParameters) {
         return Arrays.asList(
                 given()
-                        .spec(requestSpecification)
+                        .spec(JsonPlaceholder.requestSpecification)
                         .queryParams(queryParameters)
                         .get(Endpoint.POSTS)
                         .then()
@@ -41,7 +42,7 @@ public class PostResource extends JsonPlaceholder {
 
     public static Post getPostById(int postId) {
         return given()
-                .spec(requestSpecification)
+                .spec(JsonPlaceholder.requestSpecification)
                 .get(Endpoint.POST_BY_ID, postId)
                 .then()
                 .statusCode(200)
@@ -53,7 +54,7 @@ public class PostResource extends JsonPlaceholder {
     public static List<Post> getUserPosts(int userId) {
         return Arrays.asList(
                 given()
-                        .spec(requestSpecification)
+                        .spec(JsonPlaceholder.requestSpecification)
                         .get(Endpoint.POSTS_BY_USER_ID, userId)
                         .then()
                         .statusCode(200)
@@ -66,7 +67,7 @@ public class PostResource extends JsonPlaceholder {
     public static List<Comment> getPostComments(int postId) {
         return Arrays.asList(
                 given()
-                        .spec(requestSpecification)
+                        .spec(JsonPlaceholder.requestSpecification)
                         .get(Endpoint.COMMENTS_FROM_POST, postId)
                         .then()
                         .statusCode(200)
