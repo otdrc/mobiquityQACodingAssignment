@@ -14,11 +14,12 @@ public class GivenSteps {
 
     @Given("I create a comment object with invalid email")
     public void iCreateACommentObjectWithInvalidEmail() {
-        Comment newComment = new Comment();
-        newComment.setName("Comment with invalid email");
-        newComment.setBody("Some body here");
-        newComment.setPostId(PostResource.getAllPosts().get(0).getId());
-        newComment.setEmail(".invalid@email.com");
+        Comment newComment = new Comment.Builder()
+                .withName("Comment with invalid email")
+                .withBody("Some body here")
+                .withEmail(".invalid@email.com")
+                .withPostId(PostResource.getAllPosts().get(0).getId())
+                .build();
         SharedData.getInstance().setNewComment(newComment);
     }
 }
